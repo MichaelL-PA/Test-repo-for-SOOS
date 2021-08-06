@@ -67,22 +67,22 @@ cd ${GITHUB_WORKSPACE}
 virtualenv -p python .
 
 # Create PackageAware Working directory beneath the user's checkout-root folder
-mkdir -p ${GITHUB_WORKSPACE}/package_aware/workspace
+mkdir -p ${GITHUB_WORKSPACE}/soos/workspace
 
 source bin/activate
 
 # Get Package Aware CLI
 cd ${GITHUB_WORKSPACE}/package_aware/workspace
-curl -s https://api.github.com/repos/PackageAware/pa-integration-python/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
-sha256sum -c packageaware.sha256
-sha256sum -c pa-requirements.sha256
+curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
+sha256sum -c soos.sha256
+sha256sum -c requirements.sha256
 
 # Install Package Aware Requirements
-pip install -r pa-requirements.txt
+pip install -r requirements.txt
 
 cd ${GITHUB_WORKSPACE}
 
 # Execute Package Aware CLI
 echo "About to execute packageaware.py with commit hash ${PA_COMMIT_HASH}"
 
-python package_aware/workspace/packageaware.py -m="${PA_MODE}" -of="${PA_ON_FAILURE}" -dte="${PA_DIRECTORIES_TO_EXCLUDE}" -fte="${PA_FILES_TO_EXCLUDE}" -wd="${PA_WORKING_DIRECTORY}" -armw="${PA_ANALYSIS_RESULT_MAX_WAIT}" -arpi="${PA_ANALYSIS_RESULT_POLLING_INTERVAL}" -buri="${PA_BASE_URI}" -scp="${PA_ROOT_CODE_PATH}" -pn="${PA_PROJECT_NAME}" -ch="${PA_COMMIT_HASH}" -bn="${PA_BRANCH_NAME}" -bruri="${PA_BRANCH_URI}" -bldver="${PA_BUILD_VERSION}" -blduri="${PA_BUILD_URI}" -oe="${PA_OPERATING_ENVIRONMENT}" -intn="${PA_INTEGRATION_NAME}"
+python soos/workspace/soos.py -m="${PA_MODE}" -of="${PA_ON_FAILURE}" -dte="${PA_DIRECTORIES_TO_EXCLUDE}" -fte="${PA_FILES_TO_EXCLUDE}" -wd="${PA_WORKING_DIRECTORY}" -armw="${PA_ANALYSIS_RESULT_MAX_WAIT}" -arpi="${PA_ANALYSIS_RESULT_POLLING_INTERVAL}" -buri="${PA_BASE_URI}" -scp="${PA_ROOT_CODE_PATH}" -pn="${PA_PROJECT_NAME}" -ch="${PA_COMMIT_HASH}" -bn="${PA_BRANCH_NAME}" -bruri="${PA_BRANCH_URI}" -bldver="${PA_BUILD_VERSION}" -blduri="${PA_BUILD_URI}" -oe="${PA_OPERATING_ENVIRONMENT}" -intn="${PA_INTEGRATION_NAME}"
