@@ -73,7 +73,8 @@ source bin/activate
 
 # Get Package Aware CLI
 cd ${GITHUB_WORKSPACE}/soos/workspace
-curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
+curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "tarball_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
+echo | curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "tarball_url"
 sha256sum -c soos.sha256
 sha256sum -c requirements.sha256
 
