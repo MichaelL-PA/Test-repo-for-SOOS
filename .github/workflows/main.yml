@@ -17,3 +17,4 @@ jobs:
         # Visit https://packageaware.io to get the required tokens to leverage Package Aware scanning/analysis services
         PACKAGE_AWARE_CLIENT_ID: ${{ secrets.PACKAGE_AWARE_CLIENT_ID }}
         PACKAGE_AWARE_API_KEY: ${{ secrets.PACKAGE_AWARE_API_KEY }}
+	A_DEBUG_PRINT_VARIABLES: True
