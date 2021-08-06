@@ -1,19 +1,19 @@
-name: SOOS Scanner Run
+name: Example workflow using Package Aware
+# Events required to engage workflow (add/edit this list as needed)
 on: push
 jobs:
   synchronous-analysis-with-blocking-result:
-    name: SOOS Scan
+    name: Package Aware Scan
     runs-on: ubuntu-latest
     steps:
 
     - uses: actions/checkout@master
 
-    - name: Run SOOS - Scan for vulnerabilities
+    - name: Run Package Aware - Scan for vulnerabilities
       uses: MichaelL-PA/Test-repo-for-SOOS/github-action@master
       with:
-        project_name: "My cool project"
-        directories_to_exclude: "custom/bin/, custom/etc/bin/"
-    env:
-        # Visit https://soos.io to get the required tokens to leverage SOOS scanning/analysis services
-        SOOS_CLIENT_ID: ${{ secrets.SOOS_CLIENT_ID }}
-        SOOS_API_KEY: ${{ secrets.SOOS_API_KEY }}
+        project_name: "Cool project"
+      env:
+        # Visit https://packageaware.io to get the required tokens to leverage Package Aware scanning/analysis services
+        PACKAGE_AWARE_CLIENT_ID: ${{ secrets.PACKAGE_AWARE_CLIENT_ID }}
+        PACKAGE_AWARE_API_KEY: ${{ secrets.PACKAGE_AWARE_API_KEY }}
