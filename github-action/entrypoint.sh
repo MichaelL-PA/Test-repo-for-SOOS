@@ -74,6 +74,7 @@ source bin/activate
 # Get SOOS CLI
 cd ${GITHUB_WORKSPACE}/soos/workspace
 curl --url https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
+ls -la
 sha256sum -c soos.sha256
 sha256sum -c requirements.sha256
 
