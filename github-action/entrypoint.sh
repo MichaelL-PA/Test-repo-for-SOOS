@@ -67,7 +67,7 @@ cd ${GITHUB_WORKSPACE}
 virtualenv -p python .
 
 # Create SOOS Working directory beneath the user's checkout-root folder
-mkdir -p ${GITHUB_WORKSPACE}/soos/workspace
+mkdir -v -p ${GITHUB_WORKSPACE}/soos/workspace
 
 source bin/activate
 
