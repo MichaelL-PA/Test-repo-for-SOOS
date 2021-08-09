@@ -1,7 +1,7 @@
 # action.yml
-name: "Package Aware CLI"
-author: "PackageAware"
-description: "Execute Package Aware analysis using your remote PackageAware configuration"
+name: "SOOS CLI"
+author: "SOOS"
+description: "Execute SOOS analysis using your remote SOOS configuration"
 branding:
   icon: "alert-triangle"
   color: "yellow"
@@ -9,12 +9,12 @@ branding:
 inputs:
 
   base_uri:
-    description: The API BASE URI provided to you when subscribing to Package Aware services.
+    description: The API BASE URI provided to you when subscribing to SOOS services.
     required: false
-    default: 'https://api.packageaware.io/api/'
+    default: 'https://api.soos.io/api/'
     
   project_name:
-    description: A custom project name that will present itself as a collection of test results within your packageaware.io dashboard.
+    description: A custom project name that will present itself as a collection of test results within your soos.io dashboard.
     required: true    
     
   # (-dte)
@@ -74,8 +74,8 @@ runs:
   using: "docker"
   image: "Dockerfile"
   env:
-    PACKAGE_AWARE_INTEGRATION_NAME: GITHUB_ACTIONS
-    PACKAGE_AWARE_INTEGRATION_VERSION: 'v0.1.0'
+    SOOS_INTEGRATION_NAME: GITHUB_ACTIONS
+    SOOS_INTEGRATION_VERSION: 'v0.1.0'
 
   args:
   - ${{ inputs.base_uri }}

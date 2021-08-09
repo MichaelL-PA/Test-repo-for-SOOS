@@ -1,52 +1,52 @@
 #!/bin/bash
 
-PA_BASE_URI=$1
-PA_PROJECT_NAME=$2
-PA_MODE=$3
-PA_ON_FAILURE=$4
-PA_DIRECTORIES_TO_EXCLUDE=$5
-PA_FILES_TO_EXCLUDE=$6
-PA_ANALYSIS_RESULT_MAX_WAIT=$7
-PA_ANALYSIS_RESULT_POLLING_INTERVAL=$8
-PA_DEBUG_PRINT_VARIABLES=true
+SOOS_BASE_URI=$1
+SOOS_PROJECT_NAME=$2
+SOOS_MODE=$3
+SOOS_ON_FAILURE=$4
+SOOS_DIRECTORIES_TO_EXCLUDE=$5
+SOOS_FILES_TO_EXCLUDE=$6
+SOOS_ANALYSIS_RESULT_MAX_WAIT=$7
+SOOS_ANALYSIS_RESULT_POLLING_INTERVAL=$8
+SOOS_DEBUG_PRINT_VARIABLES=$9
 
-PA_BRANCH_URI=${10}
-PA_BUILD_VERSION=${11}
-PA_BUILD_URI=${12}
-PA_OPERATING_ENVIRONMENT=${13}
+SOOS_BRANCH_URI=${10}
+SOOS_BUILD_VERSION=${11}
+SOOS_BUILD_URI=${12}
+SOOS_OPERATING_ENVIRONMENT=${13}
 
-PA_COMMIT_HASH=${GITHUB_SHA}
-PA_BRANCH_NAME=${GITHUB_REF}
-PA_INTEGRATION_NAME="GitHubAction"
+SOOS_COMMIT_HASH=${GITHUB_SHA}
+SOOS_BRANCH_NAME=${GITHUB_REF}
+SOOS_INTEGRATION_NAME="GitHubAction"
 
-PA_WORKING_DIRECTORY=${GITHUB_WORKSPACE}
-PA_ROOT_CODE_PATH=${GITHUB_WORKSPACE}
+SOOS_WORKING_DIRECTORY=${GITHUB_WORKSPACE}
+SOOS_ROOT_CODE_PATH=${GITHUB_WORKSPACE}
 
-# export PACKAGE_AWARE_ROOT_CODE_PATH=${GITHUB_WORKSPACE}
-# export PACKAGE_AWARE_API_BASE_URI=${PA_BASE_URI}
-# export PACKAGE_AWARE_PROJECT_NAME=${PA_PROJECT_NAME}
+# export SOOS_ROOT_CODE_PATH=${GITHUB_WORKSPACE}
+# export SOOS_API_BASE_URI=${SOOS_BASE_URI}
+# export SOOS_PROJECT_NAME=${SOOS_PROJECT_NAME}
 
 echo 'Starting entrypoint.sh'
 
-if $PA_DEBUG_PRINT_VARIABLES ; then
+if $SOOS_DEBUG_PRINT_VARIABLES ; then
   echo "BEGIN DEBUG :: EXPLICIT ENV/VAR *****************************"
   echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-  echo "PA_MODE: ${PA_MODE}"
-  echo "PA_ON_FAILURE: ${PA_ON_FAILURE}"
-  echo "PA_DIRECTORIES_TO_EXCLUDE: ${PA_DIRECTORIES_TO_EXCLUDE}"
-  echo "PA_FILES_TO_EXCLUDE: ${PA_FILES_TO_EXCLUDE}"
-  echo "PA_WORKING_DIRECTORY: ${PA_WORKING_DIRECTORY}"
-  echo "PA_ANALYSIS_RESULT_MAX_WAIT: ${PA_ANALYSIS_RESULT_MAX_WAIT}"
-  echo "PA_ANALYSIS_RESULT_POLLING_INTERVAL: ${PA_ANALYSIS_RESULT_POLLING_INTERVAL}"
-  echo "PA_ROOT_CODE_PATH: ${PA_ROOT_CODE_PATH}"
+  echo "SOOS_MODE: ${SOOS_MODE}"
+  echo "SOOS_ON_FAILURE: ${SOOS_ON_FAILURE}"
+  echo "SOOS_DIRECTORIES_TO_EXCLUDE: ${SOOS_DIRECTORIES_TO_EXCLUDE}"
+  echo "SOOS_FILES_TO_EXCLUDE: ${SOOS_FILES_TO_EXCLUDE}"
+  echo "SOOS_WORKING_DIRECTORY: ${SOOS_WORKING_DIRECTORY}"
+  echo "SOOS_ANALYSIS_RESULT_MAX_WAIT: ${SOOS_ANALYSIS_RESULT_MAX_WAIT}"
+  echo "SOOS_ANALYSIS_RESULT_POLLING_INTERVAL: ${SOOS_ANALYSIS_RESULT_POLLING_INTERVAL}"
+  echo "SOOS_ROOT_CODE_PATH: ${SOOS_ROOT_CODE_PATH}"
   
-  echo "PA_COMMIT_HASH: ${PA_COMMIT_HASH}"
-  echo "PA_BRANCH_NAME: ${PA_BRANCH_NAME}"
-  echo "PA_BRANCH_URI: ${PA_BRANCH_URI}"
-  echo "PA_BUILD_VERSION: ${PA_BUILD_VERSION}"
-  echo "PA_BUILD_URI: ${PA_BUILD_URI}"
-  echo "PA_OPERATING_ENVIRONMENT: ${PA_OPERATING_ENVIRONMENT}"
-  echo "PA_INTEGRATION_NAME: ${PA_INTEGRATION_NAME}"
+  echo "SOOS_COMMIT_HASH: ${SOOS_COMMIT_HASH}"
+  echo "SOOS_BRANCH_NAME: ${SOOS_BRANCH_NAME}"
+  echo "SOOS_BRANCH_URI: ${SOOS_BRANCH_URI}"
+  echo "SOOS_BUILD_VERSION: ${SOOS_BUILD_VERSION}"
+  echo "SOOS_BUILD_URI: ${SOOS_BUILD_URI}"
+  echo "SOOS_OPERATING_ENVIRONMENT: ${SOOS_OPERATING_ENVIRONMENT}"
+  echo "SOOS_INTEGRATION_NAME: ${SOOS_INTEGRATION_NAME}"
   
   echo "END DEBUG :: EXPLICIT ENV/VAR *****************************"
 
@@ -66,24 +66,24 @@ cd ${GITHUB_WORKSPACE}
 # Create virtual environment to install requirements
 virtualenv -p python .
 
-# Create PackageAware Working directory beneath the user's checkout-root folder
+# Create SOOS Working directory beneath the user's checkout-root folder
 mkdir -p ${GITHUB_WORKSPACE}/soos/workspace
 
 source bin/activate
 
-# Get Package Aware CLI
+# Get SOOS CLI
 cd ${GITHUB_WORKSPACE}/soos/workspace
-# curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "tarball_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
-curl -s https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "tarball_url" | tar -xv
+curl --url https://api.github.com/repos/soos-io/soos-ci-analysis-python/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | xargs -n 1 curl -LO
 sha256sum -c soos.sha256
 sha256sum -c requirements.sha256
 
-# Install Package Aware Requirements
+
+# Install SOOS Requirements
 pip install -r requirements.txt
 
 cd ${GITHUB_WORKSPACE}
 
-# Execute Package Aware CLI
-echo "About to execute packageaware.py with commit hash ${PA_COMMIT_HASH}"
+# Execute SOOS CLI
+echo "About to execute soos.py with commit hash ${SOOS_COMMIT_HASH}"
 
-python soos/workspace/soos.py -m="${PA_MODE}" -of="${PA_ON_FAILURE}" -dte="${PA_DIRECTORIES_TO_EXCLUDE}" -fte="${PA_FILES_TO_EXCLUDE}" -wd="${PA_WORKING_DIRECTORY}" -armw="${PA_ANALYSIS_RESULT_MAX_WAIT}" -arpi="${PA_ANALYSIS_RESULT_POLLING_INTERVAL}" -buri="${PA_BASE_URI}" -scp="${PA_ROOT_CODE_PATH}" -pn="${PA_PROJECT_NAME}" -ch="${PA_COMMIT_HASH}" -bn="${PA_BRANCH_NAME}" -bruri="${PA_BRANCH_URI}" -bldver="${PA_BUILD_VERSION}" -blduri="${PA_BUILD_URI}" -oe="${PA_OPERATING_ENVIRONMENT}" -intn="${PA_INTEGRATION_NAME}"
+python soos/workspace/soos.py -m="${SOOS_MODE}" -of="${SOOS_ON_FAILURE}" -dte="${SOOS_DIRECTORIES_TO_EXCLUDE}" -fte="${SOOS_FILES_TO_EXCLUDE}" -wd="${SOOS_WORKING_DIRECTORY}" -armw="${SOOS_ANALYSIS_RESULT_MAX_WAIT}" -arpi="${SOOS_ANALYSIS_RESULT_POLLING_INTERVAL}" -buri="${SOOS_BASE_URI}" -scp="${SOOS_ROOT_CODE_PATH}" -pn="${SOOS_PROJECT_NAME}" -ch="${SOOS_COMMIT_HASH}" -bn="${SOOS_BRANCH_NAME}" -bruri="${SOOS_BRANCH_URI}" -bldver="${SOOS_BUILD_VERSION}" -blduri="${SOOS_BUILD_URI}" -oe="${SOOS_OPERATING_ENVIRONMENT}" -intn="${SOOS_INTEGRATION_NAME}"
