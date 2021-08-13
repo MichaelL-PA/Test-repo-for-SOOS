@@ -9,7 +9,7 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         base-branch-regex: '.*'
-        head-branch-regex: '.*'
+        head-branch-regex: '(?<=feature\/)[A-Za-z]*-[0-9]*'
         title-template: '%headbranch%'
         title-uppercase-base-match: false
         title-update-action: replace
