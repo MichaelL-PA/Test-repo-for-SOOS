@@ -12,6 +12,7 @@ jobs:
         head-branch-regex: '.*'
         title-template: '%basebranch%'
         title-uppercase-base-match: false
+        title-update-action: replace
         body-template: |
           Merging into '%basebranch%'
           [Link to %headbranch%](https://url/to/browse/ticket/%headbranch%)
