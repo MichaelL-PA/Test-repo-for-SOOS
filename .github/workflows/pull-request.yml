@@ -10,7 +10,7 @@ jobs:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         base-branch-regex: '.*'
         head-branch-regex: '.*'
-        title-template: '[%headbranch%] test '
+        title-template: '%basebranch% '
         body-template: |
           Merging into '%basebranch%'
           [Link to %headbranch%](https://url/to/browse/ticket/%headbranch%)
