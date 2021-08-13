@@ -1,0 +1,16 @@
+name: Pull Request Title Changer
+
+on: [pull_request]
+
+jobs:
+  change_pr_title:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: gr2m/create-or-update-pull-request-action@v1.3.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        title: "I changed your title :)"
