@@ -15,11 +15,8 @@ jobs:
         title-update-action: replace
         body-template: |
           ## Jira Issue:
-
           https://packagedump.atlassian.net/browse/PA-'%headbranch%'
-
           ## Tasks / Call outs:
-
           - [x] task resolved
           - [ ] task unresolved
         body-update-action: 'suffix'
