@@ -36,6 +36,7 @@ class SOOSSupportedManifestAPI:
         api_url = SOOSSupportedManifestAPI.generate_api_url(soos_context)
         
         for i in range(SOOSSupportManifestAPI.API_RETRY_COUNT):
+
             try:
                 api_response = requests.post(
                         url=api_url,
@@ -137,8 +138,11 @@ class SOOSStructureAPI:
             structure_api_data["integrationName"] = soos_context.integration_name
 
         for i in range(0, SOOSStructureAPI.API_RETRY_COUNT):
-            print("requests.post(\n", "url=", api_url, "\ndata=", json.dumps(structure_api_data), "\nheaders={'x-soos-apikey':", soos_context.api_key, "'Content-Type': 'application/json')") 
-            
+            print("requests.post(")
+            print("url='" + api_url + "',")
+            print("data=" + json.dumps(structure_api_data) + ",")
+            print("headers={'x-soos-apikey': '" + soos_context.api_key + "', 'Content-Type': 'application/json'}")
+            print(")")
             try:
                 
                 api_response = SOOSStructureAPIResponse(
@@ -819,14 +823,11 @@ class SOOSAnalysisScript:
         else:
             SOOS.console_log("FILES_TO_EXCLUDE: <NONE>")
 
-        print("working_directory? ", args.working_directory)
         # WORKING DIRECTORY & ASYNC RESUlT FILE
         if args.working_directory is not None:
             self.working_directory = args.working_directory.strip()
-            print("Working directory, does it exist? ", self.working_directory)
             if len(self.working_directory) > 0:
-                print("Working directory, is it windows? ", self.working_directory)
-                print("Yes, windows: ", self.working_directory.find("/"))
+
                 # IS THIS LINUX OR WINDOWS?
                 if self.working_directory.find("/") >= 0:
 
@@ -1100,7 +1101,7 @@ if __name__ == "__main__":
         # Make API call and store response
         structure_response = SOOSStructureAPI.exec(soos.context)
 
-        if structure_response is None or structure_response.original_response is None:
+        if structure_response.original_response is None:
             SOOS.console_log("A Structure API error occurred: Could not execute API.")
             if soos.script.on_failure == SOOSOnFailure.FAIL_THE_BUILD:
                 sys.exit(1)
@@ -1203,6 +1204,7 @@ if __name__ == "__main__":
                 else:
                     sys.exit(0)
         else:
+            os.system("cd ../../ & dir")
             SOOS.console_log("Could not locate any manifests under " + soos.context.source_code_path)
             if soos.script.on_failure == SOOSOnFailure.FAIL_THE_BUILD:
                 sys.exit(1)
