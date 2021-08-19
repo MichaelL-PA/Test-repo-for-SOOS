@@ -817,11 +817,14 @@ class SOOSAnalysisScript:
         else:
             SOOS.console_log("FILES_TO_EXCLUDE: <NONE>")
 
+        print("working_directory? ", args.working_directory)
         # WORKING DIRECTORY & ASYNC RESUlT FILE
         if args.working_directory is not None:
             self.working_directory = args.working_directory.strip()
+            print("Working directory, does it exist? ", self.working_directory)
             if len(self.working_directory) > 0:
-
+                print("Working directory, is it windows? ", self.working_directory)
+                print("Yes, windows: ", self.working_directory.find("/"))
                 # IS THIS LINUX OR WINDOWS?
                 if self.working_directory.find("/") >= 0:
 
