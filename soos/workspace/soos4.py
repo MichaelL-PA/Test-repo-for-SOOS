@@ -950,7 +950,7 @@ class SOOSAnalysisScript:
                             default=300,
                             required=False
                             )
-t
+
         parser.add_argument("-arpi", dest="analysis_result_polling_interval",
                             help="Polling interval (in seconds) for analysis result completion (success/failure). "
                                  "Min value: 10",
