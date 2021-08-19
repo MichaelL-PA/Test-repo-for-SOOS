@@ -137,6 +137,8 @@ class SOOSStructureAPI:
             structure_api_data["integrationName"] = soos_context.integration_name
 
         for i in range(0, SOOSStructureAPI.API_RETRY_COUNT):
+            print("requests.post(\n", "url=", api_url, "\ndata=", json.dumps(structure_api_data), "\nheaders={'x-soos-apikey':", soos_context.api_key, "'Content-Type': 'application/json')") 
+            
             try:
                 
                 api_response = SOOSStructureAPIResponse(
@@ -948,7 +950,7 @@ class SOOSAnalysisScript:
                             default=300,
                             required=False
                             )
-
+t
         parser.add_argument("-arpi", dest="analysis_result_polling_interval",
                             help="Polling interval (in seconds) for analysis result completion (success/failure). "
                                  "Min value: 10",
@@ -1098,7 +1100,7 @@ if __name__ == "__main__":
         # Make API call and store response
         structure_response = SOOSStructureAPI.exec(soos.context)
 
-        if structure_response.original_response is None:
+        if structure_response is None or structure_response.original_response is None:
             SOOS.console_log("A Structure API error occurred: Could not execute API.")
             if soos.script.on_failure == SOOSOnFailure.FAIL_THE_BUILD:
                 sys.exit(1)
